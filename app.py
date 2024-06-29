@@ -53,10 +53,19 @@ st.title('Gym Capacity Forecast 🧗‍♂️📈')
 
 
 # file upload
-uploaded_file = st.file_uploader("Upload your gym data:", type="csv")
 
-if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
+c1, c2 = st.columns([4,1])
+with c1:
+    uploaded_file = st.file_uploader("Upload your gym data:", type="csv")
+with c2:
+    use_pre_loaded_button = st.button("Use preloaded data")
+    pre_loaded_file_path = "./gym_capacity.data.csv"
+
+if uploaded_file is not None or use_pre_loaded_button:
+    if use_pre_loaded_button:
+        data = pd.read_csv(pre_loaded_file_path)
+    else:
+        data = pd.read_csv(uploaded_file)
     data = preprocess_data(data)
     
     # model selection
