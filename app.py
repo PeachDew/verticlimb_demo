@@ -22,11 +22,11 @@ def train_model(X, y, model_type):
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
     
-    if model_type == 'Random Forest':
+    if model_type.startswith('Random Forest'):
         model = RandomForestRegressor(n_estimators=100, random_state=42)
-    elif model_type == 'XGBoost':
+    elif model_type.startswith('XGBoost'):
         model = XGBRegressor(n_estimators=100, random_state=42)
-    elif model_type == 'Logistic Regression': 
+    elif model_type.startswith('Logistic Regression'): 
         model = LogisticRegression(random_state=42)
     
     model.fit(X_train_scaled, y_train)
@@ -61,15 +61,16 @@ if 'pre_loaded' not in st.session_state:
     st.session_state['pre_loaded'] = False
 
 if use_pre_loaded_button:
-    st.caption(":green[Data Loaded!]")
-    data = pd.read_csv(pre_loaded_file_path)
-    st.session_state['pre_loaded'] = True
+    st.session_state['pre_loaded'] = pre_loaded_file_path
 
-st.text(st.session_state['pre_loaded'])
+
 if uploaded_file is not None or st.session_state.pre_loaded:
-    if not st.session_state.pre_loaded:
+    st.caption(":green[Data Loaded!]")
+    if st.session_state.pre_loaded:
+        data = pd.read_csv(st.session_state.pre_loaded)
+    else:
         data = pd.read_csv(uploaded_file)
-
+    
     data = preprocess_data(data)
     
     # model selection
