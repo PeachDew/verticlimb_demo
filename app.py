@@ -59,6 +59,7 @@ pre_loaded_file_path = "./gym_capacity_data.csv"
 
 if uploaded_file is not None or use_pre_loaded_button:
     if use_pre_loaded_button:
+        st.caption(":green[Data Loaded!]")
         data = pd.read_csv(pre_loaded_file_path)
     else:
         data = pd.read_csv(uploaded_file)
