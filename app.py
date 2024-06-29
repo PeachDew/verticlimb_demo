@@ -53,13 +53,9 @@ st.title('Gym Capacity Forecast 🧗‍♂️📈')
 
 
 # file upload
-
-c1, c2 = st.columns([4,1])
-with c1:
-    uploaded_file = st.file_uploader("Upload your gym data:", type="csv")
-with c2:
-    use_pre_loaded_button = st.button("Use preloaded data")
-    pre_loaded_file_path = "./gym_capacity.data.csv"
+uploaded_file = st.file_uploader("Upload your gym data:", type="csv")
+use_pre_loaded_button = st.button("Or use preloaded demo data")
+pre_loaded_file_path = "./gym_capacity_data.csv"
 
 if uploaded_file is not None or use_pre_loaded_button:
     if use_pre_loaded_button:
