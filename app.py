@@ -57,18 +57,25 @@ uploaded_file = st.file_uploader("Upload your gym data:", type="csv")
 use_pre_loaded_button = st.button("Or use preloaded demo data")
 pre_loaded_file_path = "./gym_capacity_data.csv"
 
-if uploaded_file is not None or use_pre_loaded_button:
-    if use_pre_loaded_button:
-        st.caption(":green[Data Loaded!]")
-        data = pd.read_csv(pre_loaded_file_path)
-    else:
+st.session_state['pre_loaded'] = False
+
+if use_pre_loaded_button:
+    st.caption(":green[Data Loaded!]")
+    data = pd.read_csv(pre_loaded_file_path)
+    st.session_state['pre_loaded'] = True
+
+if uploaded_file is not None or st.session_state.pre_loaded:
+    if not st.session_state.pre_loaded:
         data = pd.read_csv(uploaded_file)
+
     data = preprocess_data(data)
     
     # model selection
     model_type = st.selectbox(
         'Choose a model', 
-        ['Random Forest', 'XGBoost', 'Logistic Regression']
+        ['Random Forest 🌳', 
+         'XGBoost ❌', 
+         'Logistic Regression 📊']
         )
     
     # model training
