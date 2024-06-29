@@ -57,13 +57,15 @@ uploaded_file = st.file_uploader("Upload your gym data:", type="csv")
 use_pre_loaded_button = st.button("Or use preloaded demo data")
 pre_loaded_file_path = "./gym_capacity_data.csv"
 
-st.session_state['pre_loaded'] = False
+if 'pre_loaded' not in st.session_state:
+    st.session_state['pre_loaded'] = False
 
 if use_pre_loaded_button:
     st.caption(":green[Data Loaded!]")
     data = pd.read_csv(pre_loaded_file_path)
     st.session_state['pre_loaded'] = True
 
+st.text(st.session_state['pre_loaded'])
 if uploaded_file is not None or st.session_state.pre_loaded:
     if not st.session_state.pre_loaded:
         data = pd.read_csv(uploaded_file)
